@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
 import { db } from './firebase';
 import { FiSearch, FiPhoneCall, FiCheckCircle, FiClock, FiSettings, FiMail, FiMapPin, FiFacebook, FiX, FiInfo } from 'react-icons/fi';
