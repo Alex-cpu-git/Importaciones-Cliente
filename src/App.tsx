@@ -3,6 +3,7 @@ import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
 import { db } from './firebase';
 import { FiSearch, FiPhoneCall, FiCheckCircle, FiClock, FiSettings, FiMail, FiMapPin, FiFacebook, FiX, FiInfo } from 'react-icons/fi';
 import './App.css';
+import logo from './assets/logo1.png';
 
 interface Machine {
   id: string;
@@ -58,7 +59,7 @@ function App() {
         <div className="header-content">
           <div className="logo-area">
             <div className="logo-box">
-              <img src="/assets/logo1.png" alt="Logo" />
+              <img src={logo} alt="Logo" />
             </div>
             <div>
               <h1>IMPORTACIONES</h1>
