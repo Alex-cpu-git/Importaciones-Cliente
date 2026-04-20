@@ -58,7 +58,7 @@ function App() {
         <div className="header-content">
           <div className="logo-area">
             <div className="logo-box">
-              <img src="/public/logo1.png" alt="Logo" />
+              <img src="/assets/logo1.png" alt="Logo" />
             </div>
             <div>
               <h1>IMPORTACIONES</h1>
