@@ -57,7 +57,9 @@ function App() {
       <header className="catalog-header">
         <div className="header-content">
           <div className="logo-area">
-            <div className="logo-box">P&amp;M</div>
+            <div className="logo-box">
+              <img src="/public/logo1.png" alt="Logo" />
+            </div>
             <div>
               <h1>IMPORTACIONES</h1>
               <span>Especialistas en Maquinaria</span>
