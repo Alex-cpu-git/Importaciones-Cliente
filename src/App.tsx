@@ -15,6 +15,7 @@ interface Machine {
   price: number;
   stock: number;
   imageUrl?: string;
+  imageUrls?: string[];
   features?: { key: string; value: string }[];
 }
 
@@ -23,6 +24,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('Todos');
   const [selectedMachine, setSelectedMachine] = useState<Machine | null>(null);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   useEffect(() => {
     const q = query(collection(db, 'machines'), orderBy('createdAt', 'desc'));
@@ -144,7 +146,10 @@ function App() {
                     )}
                   </div>
                   <div className="card-footer card-actions">
-                    <button className="btn-details" onClick={() => setSelectedMachine(machine)}>
+                    <button className="btn-details" onClick={() => {
+                        setSelectedMachine(machine);
+                        setActiveImageIndex(0);
+                    }}>
                       <FiInfo /> Más Detalles
                     </button>
                     <button className="btn-whatsapp" onClick={() => handleWhatsApp(machine)}>
@@ -164,15 +169,41 @@ function App() {
             <button className="client-modal-close" onClick={() => setSelectedMachine(null)}><FiX size={24} /></button>
 
             <div className="client-modal-body">
-              <div className="client-modal-image">
-                {selectedMachine.imageUrl ? (
-                  <img src={selectedMachine.imageUrl} alt={selectedMachine.name} />
+              <div className="client-modal-image-section">
+                {selectedMachine.imageUrls && selectedMachine.imageUrls.length > 0 ? (
+                  <div className="ecommerce-gallery">
+                    {selectedMachine.imageUrls.length > 1 && (
+                      <div className="gallery-thumbnails">
+                        {selectedMachine.imageUrls.map((url, idx) => (
+                          <div 
+                            key={idx} 
+                            className={`thumbnail-box ${activeImageIndex === idx ? 'active' : ''}`}
+                            onClick={() => setActiveImageIndex(idx)}
+                          >
+                            <img src={url} alt={`${selectedMachine.name} thumb ${idx}`} />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    <div className="gallery-main">
+                      <img src={selectedMachine.imageUrls[activeImageIndex] || selectedMachine.imageUrl} alt={selectedMachine.name} />
+                      <div className={`status-badge ${selectedMachine.status === 'En Stock' ? 'stock' : selectedMachine.status === 'Importación' ? 'transit' : 'reserved'}`}>
+                        {selectedMachine.status === 'En Stock' ? <FiCheckCircle /> : <FiClock />} {selectedMachine.status}
+                      </div>
+                    </div>
+                  </div>
                 ) : (
-                  <div className="no-image">Sin Imagen</div>
+                  <div className="gallery-main single">
+                    {selectedMachine.imageUrl ? (
+                      <img src={selectedMachine.imageUrl} alt={selectedMachine.name} />
+                    ) : (
+                      <div className="no-image">Sin Imagen</div>
+                    )}
+                    <div className={`status-badge ${selectedMachine.status === 'En Stock' ? 'stock' : selectedMachine.status === 'Importación' ? 'transit' : 'reserved'}`}>
+                      {selectedMachine.status === 'En Stock' ? <FiCheckCircle /> : <FiClock />} {selectedMachine.status}
+                    </div>
+                  </div>
                 )}
-                <div className={`status-badge ${selectedMachine.status === 'En Stock' ? 'stock' : selectedMachine.status === 'Importación' ? 'transit' : 'reserved'}`}>
-                  {selectedMachine.status === 'En Stock' ? <FiCheckCircle /> : <FiClock />} {selectedMachine.status}
-                </div>
               </div>
 
               <div className="client-modal-info">
